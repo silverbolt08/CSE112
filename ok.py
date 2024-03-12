@@ -113,3 +113,28 @@ def RType(I):
         out+="0110011"
         return out
 
+
+def Stype(I):
+    if (I[0]=='s' and I[1]=='w'):
+        out=""
+        list1=I.split(" ")
+        temp1=list1[-1].split(",")
+        temp=temp1[1].split("(")
+
+
+        Num=decimal_to_twos_complement(int(temp[0]),12)
+
+        for i in range(0,7):
+            out+=Num[i]
+        rs2= temp1[0]
+        rs1= temp[1][0]+temp[1][1]
+        out+=reg[rs2]
+        out+=reg[rs1]
+        out+="010"
+        for n in range(7,12):
+            out+=Num[n]
+        out+="0100011"
+        return out
+
+
+
