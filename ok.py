@@ -202,4 +202,12 @@ def IType(I) :  #Parth
         out+= "1100111"
         return out
 
+def JType(instruction):
+    operation, registers = instruction.split()
+    rd, imm = registers.split(",")
+    if (operation=='jal'):
+        imm = decimal_to_twos_complement(int(imm), 20)
+        return imm[19] + imm[10:0:-1] + imm[11] + imm[18:11:-1] + reg[rd] + "1101111"
+
+
 
