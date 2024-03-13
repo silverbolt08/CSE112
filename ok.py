@@ -209,5 +209,81 @@ def JType(instruction):
         imm = decimal_to_twos_complement(int(imm), 20)
         return imm[19] + imm[10:0:-1] + imm[11] + imm[18:11:-1] + reg[rd] + "1101111"
 
+def BType(I):    #Rewant
+    
+    a,rs1,b = I.split(",")  
+    x,rs2 = a.split()
+    y = int(b)
+    result = str(decimal_to_twos_complement(y,12))
+    out = ""
+    
+    if x == "beq":
+        out += result[0] + result[1:7]
+        out += reg[rs2]
+        out += reg[rs1]
+        out += "000"
+        out += result[1] + result[8:]
+        out += "1100011"
+        return out
+    if x == "bne":
+        out += result[0] + result[1:7]
+        out += reg[rs2]
+        out += reg[rs1]
+        out += "001"
+        out += result[1] + result[8:]
+        out += "1100011"
+        return out
+    if x == "blt":
+        out += result[0] + result[1:7]
+        out += reg[rs2]
+        out += reg[rs1]
+        out += "100"
+        out += result[1] + result[8:]
+        out += "1100011"
+        return out
+    if x == "bge":
+        out += result[0] + result[1:7]
+        out += reg[rs2]
+        out += reg[rs1]
+        out += "101"
+        out += result[1] + result[8:]
+        out += "1100011"
+        return out
+    if x == "bltu":
+        out += result[0] + result[1:7]
+        out += reg[rs2]
+        out += reg[rs1]
+        out += "110"
+        out += result[1] + result[8:]
+        out += "1100011"
+        return out
+    if x == "bgeu":
+        out += result[0] + result[1:7]
+        out += reg[rs2]
+        out += reg[rs1]
+        out += "111"
+        out += result[1] + result[8:]
+        out += "1100011"
+        return out
+def conversion(number):
+    if number < 0:
+        number = (1 << 32) + number
+
+    result = bin(number)[2:].zfill(32)
+    return result
+    
+def Utype(instruction_type, register, result):
+    out = ""
+    if instruction_type == "lui":
+        out += result[0:20]
+        out += reg[register]
+        out += "0110111"
+        return out
+    elif instruction_type == "auipc":
+        out += result[0:20]
+        out += reg[register]
+        out += "0010111"
+        return out
+
 
 
